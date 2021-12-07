@@ -17,9 +17,12 @@ function UserMenu(user: IUser) {
     employee: [LANG.profile, LANG.logout],
   };
   const role = getUserRole(user);
+
   const handleClick = (e: React.HTMLProps<HTMLButtonElement>) => {
     // eslint-disable-next-line no-console
     console.log('click ', e);
+    // eslint-disable-next-line no-console
+    console.log(getUserRole(user));
   };
   return (
     <StyledContainer>

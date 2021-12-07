@@ -24,7 +24,7 @@ export const mockUserPageTableColumns: any[] = [
     width: '25%',
     dataIndex: 'manageUserAction',
     render: (action: any) => (
-      <ActionButton type="text" size="middle" onClick={action}>Delete</ActionButton>
+      <ActionButton type="text" size="middle" onClick={action}>Block</ActionButton>
     ),
   },
 ];

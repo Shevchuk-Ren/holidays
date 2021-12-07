@@ -8,6 +8,13 @@ import {
 } from 'utils/css-constants';
 
 export const StyledMain = styled.main`
+ 
+  margin: 0 auto;
+  height: 100vh;
+
+  ${gap};
+`;
+export const StyleDiv = styled.div`
   width: clamp(320px, 100%, 1440px);
   margin: 0 auto;
   height: 100vh;
@@ -26,6 +33,10 @@ export const ButtonWrap = styled.div`
   & button {
     ${buttonBorder}
   }
+`;
+export const FlexContainer = styled.div`
+  width: 100%;
+  display: flex; 
 `;
 export const ContentWrap = styled.div`
   width: 100%;
