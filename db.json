@@ -1,16 +1,20 @@
 {
   "user": [
     {
-      "id": "55b4415b-c01b-4a61-9089-103b4b7cf088",
+      "key": "55b4415b-c01b-4a61-9089-103b4b7cf088",
       "firstName": "Renat",
       "lastName": "Shevchuk",
-      "email": "shevchuk_re@ukr.net"
+      "email": "shevchuk_re@ukr.net",
+      "role": "employee",
+      "is_blocked": true
     },
     {
-      "id": "8790b416-28c9-435b-8feb-220c04937589",
+      "key": "8790b416-28c9-435b-8feb-220c04937589",
       "firstName": "Rosie",
       "lastName": "Simp",
-      "email": "shevchuk_re@ukr.net"
+      "email": "shevchuk_re@ukr.net",
+      "role": "employee",
+      "is_blocked": false
     }
   ]
 }

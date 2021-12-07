@@ -6,10 +6,10 @@ export const mockUserPageTableColumns: any[] = [
   {
     title: 'Name',
     width: '50%',
-    dataIndex: 'name',
+    dataIndex: 'firstName',
     sorter: (a: any, b: any) => a.name.length - b.name.length,
     sortDirections: ['descend', 'ascend'],
-    render: (name: any) => (<span>{name}</span>),
+    render: (firstName: any) => (<span>{firstName}</span>),
   },
   {
     title: 'Actions',
@@ -19,12 +19,20 @@ export const mockUserPageTableColumns: any[] = [
       <ActionButton type="text" size="middle" onClick={action}>Edit</ActionButton>
     ),
   },
+  // {
+  //   title: '',
+  //   width: '25%',
+  //   dataIndex: 'manageUserAction',
+  //   render: (action: any) => (
+  //     <ActionButton type="text" size="middle" onClick={action}>Block</ActionButton>
+  //   ),
+  // },
   {
     title: '',
     width: '25%',
-    dataIndex: 'manageUserAction',
-    render: (action: any) => (
-      <ActionButton type="text" size="middle" onClick={action}>Block</ActionButton>
+    dataIndex: 'is_blocked',
+    render: (is_blocked: any) => (
+      <ActionButton type="text" size="middle" onClick={() => console.log('Button pressed')}>{is_blocked ? 'Block' : 'Unblock' }</ActionButton>
     ),
   },
 ];
