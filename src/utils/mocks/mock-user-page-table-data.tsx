@@ -15,10 +15,15 @@ export const mockUserPageTableColumns: any[] = [
   {
     title: 'Name',
     width: '50%',
-    dataIndex: 'firstName',
-    sorter: (a: any, b: any) => a.firstName.length - b.firstName.length,
+    dataIndex: 'first_name',
+    key: 'name',
+    sorter: (a: any, b: any) => a.first_name.length - b.first_name.length,
     sortDirections: ['descend', 'ascend'],
-    render: (firstName: any, id: any) => (<span key={id}>{firstName}</span>),
+    render: (first_name: any) => (
+      <span>
+        {first_name}
+      </span>
+    ),
   },
   {
     title: 'Actions',
@@ -40,8 +45,8 @@ export const mockUserPageTableColumns: any[] = [
     title: '',
     width: '25%',
     dataIndex: 'is_blocked',
-    render: (is_blocked: any) => (
-      <ActionButton type="text" size="middle" onClick={() => toggle(is_blocked)}>{is_blocked ? 'Block' : 'Unblock' }</ActionButton>
+    render: (is_blocked: boolean) => (
+      <ActionButton type="text" style={is_blocked ? { backgroundColor: 'grey' } : { backgroundColor: 'red' }} size="middle" onClick={() => toggle(is_blocked)}>{is_blocked ? 'Block' : 'Unblock' }</ActionButton>
     ),
   },
 ];

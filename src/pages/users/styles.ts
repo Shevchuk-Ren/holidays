@@ -46,3 +46,7 @@ export const ContentWrap = styled.div`
 export const StyledTable = styled(Table)`
   ${tableBorders}
 `;
+export const StyledName = styled.p`
+ display: inline-block;
+ margin-right: 5px;
+`;
