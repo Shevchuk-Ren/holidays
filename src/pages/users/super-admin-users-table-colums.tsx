@@ -11,17 +11,16 @@ const superAdminTableColumns: any[] = [{
 
   render: (record: any) => (
     <>
-      <StyledName>{record.first_name}</StyledName>
-      <StyledName>{record.last_name}</StyledName>
+      <StyledName style={record.is_blocked ? { color: 'grey' } : { color: 'black' }}>{record.first_name}</StyledName>
+      <StyledName style={record.is_blocked ? { color: 'grey' } : { color: 'black' }}>{record.last_name}</StyledName>
     </>
   ),
 },
 {
   title: 'Actions',
   width: '25%',
-  dataIndex: 'manageDaysOffAction',
-  render: (action: any) => (
-    <ActionButton type="text" size="middle" onClick={action}>Edit</ActionButton>
+  render: (record: any, action: any) => (
+    <ActionButton style={record.is_blocked ? { color: 'grey' } : { color: 'black' }} type="text" size="middle" onClick={action}>Edit</ActionButton>
   ),
 },
 {

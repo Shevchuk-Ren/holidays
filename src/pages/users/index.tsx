@@ -16,7 +16,7 @@ const user: IUser = {
   role: 'superAdmin',
 };
 const token = {
-  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imtpd2kiLCJzdWIiOjMsInVzZXJSb2xlIjoic3VwZXJfYWRtaW4iLCJpYXQiOjE2MzkxMzcyNDcsImV4cCI6MTYzOTE0MDg0N30.xKZ3WkRPgDaLFg-zFUj6syws24GLnfkvkaqTkzmkZQg',
+  token: '',
 };
 
 const UsersPage: FunctionComponent = () => {
