@@ -1,35 +1,61 @@
 import React from 'react';
-import ActionButton from 'components/ActionButton';
-import { StyledName } from './styles';
+import { ColumnsType } from 'antd/es/table';
+import { StyledActionButton, StyledName } from './styles';
 
-const superAdminTableColumns: any[] = [{
+const store = true;
+type UserValues = {
+  first_name: string;
+  last_name: string;
+  is_blocked: any;
+};
+interface User {
+  first_name: string;
+  last_name: string;
+  is_blocked: boolean;
+  user_id: number;
+}
+// interface UserColums {
+//   key?: string;
+//   width?: string;
+//   name?: string;
+//   sortDirections?: any;
+//   dataIndex?: string | undefined;
+//   title?: string;
+//   first_name?: string;
+//   last_name?: string;
+//   is_blocked?: boolean;
+//   user_id?: number;
+// }
+
+const superAdminTableColumns: ColumnsType<any> = [{
   title: 'Name',
   width: '50%',
   key: 'name',
-  sorter: (a: any, b: any) => a.first_name.length - b.first_name.length,
+  sorter: (a: User, b: User): number => a.first_name.length - b.first_name.length,
   sortDirections: ['descend', 'ascend'],
 
-  render: (record: any) => (
+  render: ({ is_blocked, first_name, last_name }: UserValues) => (
     <>
-      <StyledName style={record.is_blocked ? { color: 'grey' } : { color: 'black' }}>{record.first_name}</StyledName>
-      <StyledName style={record.is_blocked ? { color: 'grey' } : { color: 'black' }}>{record.last_name}</StyledName>
+      <StyledName color={is_blocked}>{first_name}</StyledName>
+      <StyledName color={is_blocked}>{last_name}</StyledName>
     </>
   ),
 },
 {
   title: 'Actions',
   width: '25%',
-  render: (record: any, action: any) => (
-    <ActionButton style={record.is_blocked ? { color: 'grey' } : { color: 'black' }} type="text" size="middle" onClick={action}>Edit</ActionButton>
+  render: ({ is_blocked }) => (
+    <StyledActionButton color={is_blocked} type="text" size="middle">Edit</StyledActionButton>
   ),
 },
 {
   title: '',
   width: '25%',
   dataIndex: 'is_blocked',
-  render: (is_blocked: boolean) => (
-    // eslint-disable-next-line no-console
-    <ActionButton type="text" style={is_blocked ? { color: 'grey' } : { color: 'black' }} size="middle" onClick={() => console.log(is_blocked)}>{is_blocked ? 'Block' : 'Unblock' }</ActionButton>
+  render: (is_blocked) => (
+    <>
+      {store ? <StyledActionButton type="text" size="middle" color={is_blocked}>Delete</StyledActionButton> : <StyledActionButton type="text" size="middle" color={is_blocked}>{is_blocked ? 'Block' : 'Unblock'}</StyledActionButton>}
+    </>
   ),
 },
 ];

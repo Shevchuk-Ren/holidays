@@ -6,6 +6,7 @@ import {
   buttonBorder,
   tableBorders,
 } from 'utils/css-constants';
+import ActionButton from 'components/ActionButton';
 
 export const StyledMain = styled.main`
  
@@ -49,4 +50,9 @@ export const StyledTable = styled(Table)`
 export const StyledName = styled.p`
  display: inline-block;
  margin-right: 5px;
+ color: ${(props): any => props.color && 'grey'};
+`;
+
+export const StyledActionButton = styled(ActionButton)`
+ color: ${(props): any => props.color && 'grey'};
 `;
