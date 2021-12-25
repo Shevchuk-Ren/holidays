@@ -17,13 +17,16 @@
     "antd": "^4.16.13",
     "axios": "^0.24.0",
     "json-server": "^0.17.0",
+    "moment": "^2.29.1",
     "persist": "^0.2.7",
+    "rc-picker": "^2.5.19",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-hook-form": "^7.22.1",
+    "react-modern-calendar-datepicker": "^3.1.6",
     "react-redux": "^7.2.6",
     "react-router-dom": "^6.0.2",
-    "react-scripts": "4.0.3",
+    "react-scripts": "^5.0.0",
     "react-toastify": "^8.1.0",
     "redux": "^4.1.2",
     "redux-persist": "^6.0.0",
@@ -46,8 +49,6 @@
   },
   "eslintConfig": {
     "extends": [
-      "react-app",
-      "react-app/jest",
       "airbnb",
       "airbnb-typescript"
     ],
@@ -96,10 +97,10 @@
     ]
   },
   "devDependencies": {
-    "@storybook/addon-essentials": "^6.3.12",
+    "@storybook/addon-essentials": "^6.1.21",
     "@storybook/addon-links": "^6.3.12",
     "@storybook/node-logger": "^6.3.12",
-    "@storybook/preset-create-react-app": "^3.2.0",
+    "@storybook/preset-create-react-app": "^4.0.0",
     "@types/react-router-dom": "^5.3.2",
     "@types/styled-components": "^5.1.15",
     "@types/uuid": "^8.3.3",
@@ -107,6 +108,8 @@
     "@typescript-eslint/parser": "^4.33.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-airbnb-typescript": "^14.0.1",
-    "eslint-plugin-jsx-a11y": "^6.4.1"
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "moment": "^2.29.1",
+    "rc-picker": "^2.5.19"
   }
 }

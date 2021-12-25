@@ -29,8 +29,10 @@ import {
   StyledBtnAddPass,
 } from 'pages/userpage/ProfilePage/styles';
 import { FormValues } from 'pages/userpage/ProfilePage/usePassword-types';
+import DaysBooking from 'components/DatePicker/index';
 
 const ProfilePage: FunctionComponent = () => {
+  const [isBookingOpen, setIsBookingOpen] = useState(false);
   const { userData, token } = store.getState().user;
   const location = useLocation().state;
   const [userInfo, setUserInfo] = useState<UserData | null>(null);
@@ -142,12 +144,12 @@ const ProfilePage: FunctionComponent = () => {
             <StyledButton>
               <ActionButton
                 onClick={(): void => {
-                  // eslint-disable-next-line no-console
-                  console.log('clicked');
+                  setIsBookingOpen(!isBookingOpen);
                 }}
               >
                 Add
               </ActionButton>
+              { isBookingOpen && <DaysBooking />}
               {!(userData.role === EMPLOYEE_ROLE) && (
                 <StyledBtnAddPass
                   onClick={
