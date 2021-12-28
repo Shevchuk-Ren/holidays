@@ -5,8 +5,11 @@ import React, {
 } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ColumnsType } from 'antd/es/table';
+import { Popconfirm } from 'antd';
 import API from 'services/api/userApi';
+import toggleUserBlock from 'services/api/toggleUserBlock';
 import getUserList from 'services/api/userlistApi';
+import deleteById from 'services/api/deleteById';
 import ActionButton from 'components/ActionButton';
 import UserMenu from 'components/userMenu';
 import LANG from 'language/en';
@@ -14,7 +17,6 @@ import ModalAddUser from 'components/AddUserForm';
 import { store } from 'store';
 import { ICreateUser } from 'services/reducers/user/api.types';
 import { ADD_USER_BUTTON_TEXT, SUPER_ADMIN_ROLE } from 'utils/texts-constants';
-import { deleteUser, toggleUser } from './users-btn-logic';
 import {
   StyledPage,
   StyledMain,
@@ -42,12 +44,11 @@ const UsersPage: FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const userRole = store.getState().user.userData.role;
   const navigate = useNavigate();
+  const token = {
+    token: store.getState().user.token,
+  };
 
   useEffect(() => {
-    const token = {
-      token: store.getState().user.token,
-    };
-
     getUserList(token).then((data) => {
       if (data.length === 0) {
         return;
@@ -59,10 +60,6 @@ const UsersPage: FC = () => {
   }, []);
 
   useEffect(() => {
-    const token = {
-      token: store.getState().user.token,
-    };
-
     getUserList(token).then((data) => {
       if (data.length === 0) {
         return;
@@ -82,10 +79,30 @@ const UsersPage: FC = () => {
   const toggleModal = ():void => {
     setIsModalOpen(!isModalOpen);
   };
+
   const onFinish = async (values:ICreateUser):Promise<any> => {
     const result = await API.addNewUser(values);
     toggleModal();
     return result;
+  };
+
+  const toggleBlock = (isBlock: boolean, id: number): void => {
+    const findUser = users.map((user: User): any => {
+      if (user.user_id === id) {
+        const toggle = user.is_blocked ? 0 : 1;
+        const isBlockUser = { ...user, ...{ is_blocked: toggle } };
+        return isBlockUser;
+      }
+      return user;
+    });
+    setUsers(findUser);
+    toggleUserBlock(id, token.token);
+  };
+
+  const handleDelete = (id: number) => {
+    const findUser = users.filter((user: User) => user.user_id !== id);
+    setUsers(findUser);
+    deleteById(id, token.token);
   };
 
   const superAdminTableColumns: ColumnsType<any> = [{
@@ -112,10 +129,11 @@ const UsersPage: FC = () => {
   {
     title: '',
     width: '25%',
-    dataIndex: 'is_blocked',
-    render: (is_blocked) => (
+    render: (record) => (
       <>
-        {userRole === SUPER_ADMIN_ROLE ? <StyledActionButton type="text" size="middle" color={is_blocked} onClick={() => deleteUser(is_blocked)}>Delete</StyledActionButton> : <StyledActionButton type="text" size="middle" color={is_blocked} onClick={() => toggleUser(is_blocked)}>{is_blocked ? 'Block' : 'Unblock'}</StyledActionButton>}
+        {userRole === SUPER_ADMIN_ROLE
+          ? <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record.user_id)}><StyledActionButton type="text" size="middle" color={record.is_blocked}>Delete</StyledActionButton></Popconfirm>
+          : <StyledActionButton type="text" size="middle" color={record.is_blocked} onClick={() => toggleBlock(record.is_blocked, record.user_id)}>{record.is_blocked ? 'Block' : 'Unblock'}</StyledActionButton>}
       </>
     ),
   },

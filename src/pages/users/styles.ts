@@ -1,12 +1,11 @@
 import styled from 'styled-components';
-import { Table, Input } from 'antd';
+import { Table, Input, Button } from 'antd';
 import {
   colorPrimaryText,
   gap,
   buttonBorder,
   tableBorders,
 } from 'utils/css-constants';
-import ActionButton from 'components/ActionButton';
 
 export const StyledMain = styled.main`
   width: clamp(320px, 100%, 1440px);
@@ -64,6 +63,6 @@ export const StyledName = styled.p`
  color: ${(props): string | undefined => props.color && 'grey'};
 `;
 
-export const StyledActionButton = styled(ActionButton)`
+export const StyledActionButton = styled(Button)`
  color: ${(props): string | undefined => props.color && 'grey'};
 `;
