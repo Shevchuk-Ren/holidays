@@ -1,3 +1,6 @@
 {
-    "typescript.format.placeOpenBraceOnNewLineForFunctions": true
+    "typescript.format.placeOpenBraceOnNewLineForFunctions": true,
+    "cSpell.words": [
+        "Daye"
+    ]
 }
