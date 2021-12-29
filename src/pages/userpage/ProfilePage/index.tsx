@@ -66,6 +66,7 @@ const ProfilePage: FunctionComponent = () => {
       setUserInfo(userCreated);
       // eslint-disable-next-line no-console
     }).catch((error) => console.log(error));
+    console.log(userData, 'data');
   }, [currentId, token]);
 
   useEffect(() => {

@@ -17,7 +17,14 @@ const DataBooking: FC = () => {
     setDate(data);
   };
   const onSubmit = () => {
-    console.log('add submit:', type, date);
+    // console.log('add submit:', type, date);
+    const a = {
+      start_day: date[0],
+      end_day: date[1],
+      status: 'pending',
+      type,
+    };
+    console.log(a);
   };
 
   return (

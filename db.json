@@ -1,22 +1,44 @@
 {
-  "user": [
+  "dayOff": [
     {
-      "id": "55b4415b-c01b-4a61-9089-103b4b7cf088",
-      "firstName": "Renat",
-      "lastName": "Shevchuk",
-      "email": "shevchuk_re@ukr.net"
+      "id": 1,
+      "start_day": "2021-11-20T19:00:00.000Z",
+      "end_day": "2021-11-20T19:00:00.000Z",
+      "type": "sick_leave",
+      "status": "pending",
+      "userId": 23
     },
     {
-      "id": "8790b416-28c9-435b-8feb-220c04937589",
-      "firstName": "Rosie",
-      "lastName": "Simp",
-      "email": "shevchuk_re@ukr.net"
+      "id": 2,
+      "start_day": "2021-12-20T19:00:00.000Z",
+      "end_day": "2021-12-20T19:00:00.000Z",
+      "type": "sick_leave",
+      "status": "pending",
+      "userId": 23
     },
     {
-      "id": "2fe28a2a-db12-4f37-ab38-1e40f89556f0",
-      "first_name": "Rosie",
-      "last_name": "Simp",
-      "email": "shevchuk_re@ukr.net"
+      "id": 3,
+      "start_day": "2022-01-19T19:00:00.000Z",
+      "end_day": "2022-01-20T19:00:00.000Z",
+      "type": "vacation",
+      "status": "pending",
+      "userId": 16
+    },
+    {
+      "id": 4,
+      "start_day": "2021-01-19T19:00:00.000Z",
+      "end_day": "2021-01-20T19:00:00.000Z",
+      "type": "vacation",
+      "status": "pending",
+      "userId": 23
+    },
+    {
+      "1": "",
+      "id": 5
+    },
+    {
+      "1": "",
+      "id": 6
     }
   ]
 }
