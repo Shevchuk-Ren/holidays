@@ -23,8 +23,8 @@ const dayOffData = [
   },
   {
     id: 2,
-    start_day: '2021-12-20T19:00:00.000Z',
-    end_day: '2021-12-20T19:00:00.000Z',
+    start_day: '2022-02-20T19:00:00.000Z',
+    end_day: '2022-02-20T19:00:00.000Z',
     type: 'sick_leave',
     status: 'pending',
     userId: 1,
@@ -35,7 +35,7 @@ const dayOffData = [
     end_day: '2022-01-20T19:00:00.000Z',
     type: 'vacation',
     status: 'pending',
-    userId: 2,
+    userId: 1,
   },
   {
     id: 4,
@@ -43,7 +43,7 @@ const dayOffData = [
     end_day: '2022-01-26T19:00:00.000Z',
     type: 'vacation',
     status: 'pending',
-    userId: 2,
+    userId: 1,
   },
 ];
 const disabledDays = [{
@@ -128,18 +128,16 @@ const CalendarSelect: FC<P> = ({
     console.log('user', userData.id);
     console.log('vacation', dayOffData);
     onChangeDay([data.start, data.end]);
-    // getDayOffById(userData.id).then((vacations) => {
-    //   setDayOff(vacations);
-    //   console.log(dayOff);
-    // });
-    //  return () => {
+
     setDayOff(dayOffData);
-    if (dayOff !== []) {
+  }, [type]);
+
+  useEffect(() => {
+    if (dayOff.length !== 0) {
       const filterVocation = dayOff.filter((obj) => obj.type === type);
       setCurrentType(filterVocation);
-      console.log(filterVocation, 'Console filter');
     }
-  }, []);
+  }, [dayOff]);
   const onChange = (value:SelectedDays) => {
     console.log(type);
     setSelectedDay(value);
@@ -151,35 +149,18 @@ const CalendarSelect: FC<P> = ({
     }
   };
   const createdData = () => {
-    // console.log(dataВ.year);
-    // if (!dataВ.year) {
-    //   const nD = {
-    //     year: parseInt(created, 10),
-    //     month: 2 + createdData().month,
-    //     day: createdData().day,
-    //   };
-    //   // const newData = parseInt(created, 10);
-    //   console.log(nD, 'new');
-    // }
-    // const nD = {
-    //   year: parseInt(created, 10),
-    //   month: 2 + createdData().month,
-    //   day: createdData().day,
-    // };
     if (type === 'vacation') {
-      console.log('Vacation');
-      if (dayOff === []) {
+      console.log('Vacation', currentType);
+      if (currentType === []) {
         const newYear = parseInt(userData.created_at, 10);
         const newMounth = parseInt(userData.created_at.replace(/[^a-zа-яё0-9\s]/gi, ' ').slice(5), 10);
         const newDay = parseInt(userData.created_at.replace(/[^a-zа-яё0-9\s]/gi, ' ').slice(8), 10);
 
         const a = {
           year: newYear,
-          month: newMounth,
+          month: 2 + newMounth,
           day: newDay,
         };
-        disabledDays.push(a);
-        console.log(disabledDays, 'блоки');
         return a;
       }
       if (currentType.length > 0) {
@@ -191,29 +172,44 @@ const CalendarSelect: FC<P> = ({
 
         const a = {
           year: newYear,
-          month: newMounth,
+          month: 2 + newMounth,
           day: newDay,
         };
-        disabledDays.push(a);
-        console.log(disabledDays, 'блоки');
         return a;
       }
     }
     if (type === 'sick_leave') {
       console.log('sick_leave');
-      if (dayOff === []) {
-        const newYear = parseInt(userData.created_at, 10);
-        const newMounth = parseInt(userData.created_at.replace(/[^a-zа-яё0-9\s]/gi, ' ').slice(5), 10);
-        const newDay = parseInt(userData.created_at.replace(/[^a-zа-яё0-9\s]/gi, ' ').slice(8), 10);
+      if (currentType === []) {
+        const a = {
+          year: moment().year(),
+          month: 1 + moment().month(),
+          day: moment().date(),
+        };
+        return a;
+      }
+      if (currentType.length > 0) {
+        const lastDayOff = currentType[currentType.length - 1];
+        const newYear = parseInt(lastDayOff.end_day, 10);
+        const newMounth = parseInt(lastDayOff.end_day.replace(/[^a-zа-яё0-9\s]/gi, ' ').slice(5), 10);
 
         const a = {
           year: newYear,
           month: newMounth,
-          day: newDay,
+          day: 1,
         };
-        console.log(disabledDays, 'блоки');
         return a;
       }
+    }
+    if (type === 'workToAnotherDay' || type === 'ownExpense') {
+      console.log('workToAnotherDay');
+      const a = {
+        year: moment().year(),
+        month: 1 + moment().month(),
+        day: moment().date(),
+      };
+      console.log('workToAnotherDay', a);
+      return a;
     }
     const newYear = parseInt(userData.created_at, 10);
     const newMounth = parseInt(userData.created_at.replace(/[^a-zа-яё0-9\s]/gi, ' ').slice(5), 10);
@@ -228,7 +224,7 @@ const CalendarSelect: FC<P> = ({
   };
   const minimumDate = {
     year: createdData().year,
-    month: 2 + createdData().month,
+    month: parseFloat(`${type === 'sick_leave' ? 1 + createdData().month : createdData().month}`),
     day: createdData().day,
   };
 
@@ -237,7 +233,23 @@ const CalendarSelect: FC<P> = ({
     month: 0,
     day: 31,
   };
-
+  const customDays = [
+    {
+      year: createdData().year,
+      month: createdData().month,
+      day: createdData().day,
+      className: 'purpleDay',
+    },
+    {
+      year: 2022, month: 1, day: 7, className: 'orangeDay',
+    },
+    {
+      year: 2019, month: 3, day: 18, className: 'yellowDay',
+    },
+    {
+      year: 2019, month: 3, day: 26, className: 'navyBlueDay',
+    },
+  ];
   return (
     <Calendar
       value={selectedDay}
@@ -247,20 +259,7 @@ const CalendarSelect: FC<P> = ({
       // disabledDays={disabledDays(type)}
       disabledDays={disabledDays}
       shouldHighlightWeekends
-      customDaysClassName={[
-        {
-          year: 2021, month: 12, day: 15, className: 'purpleDay',
-        },
-        {
-          year: 2022, month: 1, day: 7, className: 'orangeDay',
-        },
-        {
-          year: 2019, month: 3, day: 18, className: 'yellowDay',
-        },
-        {
-          year: 2019, month: 3, day: 26, className: 'navyBlueDay',
-        },
-      ]}
+      customDaysClassName={customDays}
     />
   );
 };

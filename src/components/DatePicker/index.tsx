@@ -17,7 +17,7 @@ const DataBooking: FC = () => {
     setDate(data);
   };
   const onSubmit = () => {
-    // console.log('add submit:', type, date);
+    console.log('add submit:', type, date);
     const a = {
       start_day: date[0],
       end_day: date[1],
@@ -38,7 +38,7 @@ const DataBooking: FC = () => {
           <Option value="vacation" key="vacation">
             Vacation
           </Option>
-          <Option value="sick" key="sick">
+          <Option value="sick_leave" key="sick">
             Sick leave
           </Option>
           <Option value="workToAnotherDay" key="workToAnotherDay">
