@@ -31,8 +31,8 @@ const dayOffData = [
   },
   {
     id: 3,
-    start_day: '2022-01-19T19:00:00.000Z',
-    end_day: '2022-01-20T19:00:00.000Z',
+    start_day: '2021-12-19T19:00:00.000Z',
+    end_day: '2021-12-20T19:00:00.000Z',
     type: 'vacation',
     status: 'pending',
     userId: 1,
@@ -124,6 +124,14 @@ const CalendarSelect: FC<P> = ({
   const [selectedDay, setSelectedDay] = useState<DayRange>(defaultValue);
   const [dayOff, setDayOff] = useState<any[]>([]);
   const [currentType, setCurrentType] = useState<any>([]);
+  const [customDays, setCustomDays] = useState<any>([]);
+
+  const custom = [{
+    year: 0,
+    month: 0,
+    day: 0,
+    className: 'purpleDay',
+  }];
   useEffect(() => {
     console.log('user', userData.id);
     console.log('vacation', dayOffData);
@@ -135,6 +143,34 @@ const CalendarSelect: FC<P> = ({
   useEffect(() => {
     if (dayOff.length !== 0) {
       const filterVocation = dayOff.filter((obj) => obj.type === type);
+      const currentData = filterVocation.map((obj) => {
+        if (parseInt(obj.end_day, 10) === moment().year()) {
+          const day = parseInt(obj.start_day.replace(/[^a-zа-яё0-9\s]/gi, ' ').slice(8), 10);
+          const month = parseInt(obj.start_day.replace(/[^a-zа-яё0-9\s]/gi, ' ').slice(5), 10);
+          const dayEnd = parseInt(obj.end_day.replace(/[^a-zа-яё0-9\s]/gi, ' ').slice(8), 10);
+          const monthEnd = parseInt(obj.end_day.replace(/[^a-zа-яё0-9\s]/gi, ' ').slice(5), 10);
+          const year = parseInt(obj.start_day, 10);
+          const yearEnd = parseInt(obj.end_day, 10);
+          custom.push({
+            year,
+            month,
+            day,
+            className: 'purpleDay',
+          });
+          custom.push({
+            year: yearEnd,
+            month: monthEnd,
+            day: dayEnd,
+            className: 'purpleDay',
+          });
+          return obj;
+        }
+        return obj;
+      });
+
+      console.log(customDays, 'array');
+      console.log(currentData, 'filter');
+      setCustomDays(custom);
       setCurrentType(filterVocation);
     }
   }, [dayOff]);
@@ -233,23 +269,23 @@ const CalendarSelect: FC<P> = ({
     month: 0,
     day: 31,
   };
-  const customDays = [
-    {
-      year: createdData().year,
-      month: createdData().month,
-      day: createdData().day,
-      className: 'purpleDay',
-    },
-    {
-      year: 2022, month: 1, day: 7, className: 'orangeDay',
-    },
-    {
-      year: 2019, month: 3, day: 18, className: 'yellowDay',
-    },
-    {
-      year: 2019, month: 3, day: 26, className: 'navyBlueDay',
-    },
-  ];
+  // const customDays = [
+  //   {
+  //     year: createdData().year,
+  //     month: createdData().month,
+  //     day: createdData().day,
+  //     className: 'purpleDay',
+  //   },
+  //   {
+  //     year: 2022, month: 1, day: 7, className: 'orangeDay',
+  //   },
+  //   {
+  //     year: 2019, month: 3, day: 18, className: 'yellowDay',
+  //   },
+  //   {
+  //     year: 2019, month: 3, day: 26, className: 'navyBlueDay',
+  //   },
+  // ];
   return (
     <Calendar
       value={selectedDay}
