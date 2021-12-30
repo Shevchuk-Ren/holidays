@@ -15,16 +15,16 @@ const data = {
 const dayOffData = [
   {
     id: 1,
-    start_day: '2021-11-20T19:00:00.000Z',
-    end_day: '2021-11-20T19:00:00.000Z',
+    start_day: '2021-12-10T19:00:00.000Z',
+    end_day: '2021-12-10T19:00:00.000Z',
     type: 'sick_leave',
     status: 'pending',
     userId: 1,
   },
   {
     id: 2,
-    start_day: '2022-02-20T19:00:00.000Z',
-    end_day: '2022-02-20T19:00:00.000Z',
+    start_day: '2022-01-02T19:00:00.000Z',
+    end_day: '2022-01-02T19:00:00.000Z',
     type: 'sick_leave',
     status: 'pending',
     userId: 1,
@@ -39,9 +39,17 @@ const dayOffData = [
   },
   {
     id: 4,
-    start_day: '2022-01-25T19:00:00.000Z',
-    end_day: '2022-01-26T19:00:00.000Z',
+    start_day: '2021-12-25T19:00:00.000Z',
+    end_day: '2021-12-26T19:00:00.000Z',
     type: 'vacation',
+    status: 'pending',
+    userId: 1,
+  },
+  {
+    id: 5,
+    start_day: '2022-01-01T19:00:00.000Z',
+    end_day: '2022-01-06T19:00:00.000Z',
+    type: 'workToAnotherDay',
     status: 'pending',
     userId: 1,
   },
@@ -141,39 +149,43 @@ const CalendarSelect: FC<P> = ({
   }, [type]);
 
   useEffect(() => {
+    console.log('Filter here');
     if (dayOff.length !== 0) {
       const filterVocation = dayOff.filter((obj) => obj.type === type);
-      const currentData = filterVocation.map((obj) => {
-        if (parseInt(obj.end_day, 10) === moment().year()) {
-          const day = parseInt(obj.start_day.replace(/[^a-zа-яё0-9\s]/gi, ' ').slice(8), 10);
-          const month = parseInt(obj.start_day.replace(/[^a-zа-яё0-9\s]/gi, ' ').slice(5), 10);
-          const dayEnd = parseInt(obj.end_day.replace(/[^a-zа-яё0-9\s]/gi, ' ').slice(8), 10);
-          const monthEnd = parseInt(obj.end_day.replace(/[^a-zа-яё0-9\s]/gi, ' ').slice(5), 10);
-          const year = parseInt(obj.start_day, 10);
-          const yearEnd = parseInt(obj.end_day, 10);
-          custom.push({
-            year,
-            month,
-            day,
-            className: 'purpleDay',
-          });
-          custom.push({
-            year: yearEnd,
-            month: monthEnd,
-            day: dayEnd,
-            className: 'purpleDay',
-          });
-          return obj;
-        }
-        return obj;
-      });
-
-      console.log(customDays, 'array');
-      console.log(currentData, 'filter');
-      setCustomDays(custom);
       setCurrentType(filterVocation);
+      console.log(filterVocation, 'filterVocation');
+      if (filterVocation) {
+        const filt = filterVocation.map((obj) => {
+          if (parseInt(obj.end_day, 10) === moment().year()
+            || parseInt(obj.end_day, 10) === 1 + moment().year()) {
+            const day = parseInt(obj.start_day.replace(/[^a-zа-яё0-9\s]/gi, ' ').slice(8), 10);
+            const month = parseInt(obj.start_day.replace(/[^a-zа-яё0-9\s]/gi, ' ').slice(5), 10);
+            const dayEnd = parseInt(obj.end_day.replace(/[^a-zа-яё0-9\s]/gi, ' ').slice(8), 10);
+            const monthEnd = parseInt(obj.end_day.replace(/[^a-zа-яё0-9\s]/gi, ' ').slice(5), 10);
+            const year = parseInt(obj.start_day, 10);
+            const yearEnd = parseInt(obj.end_day, 10);
+            custom.push({
+              year,
+              month,
+              day,
+              className: 'purpleDay',
+            });
+            custom.push({
+              year: yearEnd,
+              month: monthEnd,
+              day: dayEnd,
+              className: 'purpleDay',
+            });
+            return obj;
+          }
+          return obj;
+        });
+        console.log(filt, 'map');
+      }
+      setCustomDays(custom);
+      console.log(customDays, 'array');
     }
-  }, [dayOff]);
+  }, [type, dayOff]);
   const onChange = (value:SelectedDays) => {
     console.log(type);
     setSelectedDay(value);
@@ -185,6 +197,7 @@ const CalendarSelect: FC<P> = ({
     }
   };
   const createdData = () => {
+    console.log(customDays, 'array creaty');
     if (type === 'vacation') {
       console.log('Vacation', currentType);
       if (currentType === []) {
