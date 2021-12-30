@@ -31,16 +31,16 @@ const dayOffData = [
   },
   {
     id: 3,
-    start_day: '2021-12-19T19:00:00.000Z',
-    end_day: '2021-12-20T19:00:00.000Z',
+    start_day: '2021-12-25T19:00:00.000Z',
+    end_day: '2021-12-26T19:00:00.000Z',
     type: 'vacation',
     status: 'pending',
     userId: 1,
   },
   {
     id: 4,
-    start_day: '2021-12-25T19:00:00.000Z',
-    end_day: '2021-12-26T19:00:00.000Z',
+    start_day: '2021-12-29T19:00:00.000Z',
+    end_day: '2022-01-05T19:00:00.000Z',
     type: 'vacation',
     status: 'pending',
     userId: 1,
@@ -164,18 +164,40 @@ const CalendarSelect: FC<P> = ({
             const monthEnd = parseInt(obj.end_day.replace(/[^a-zа-яё0-9\s]/gi, ' ').slice(5), 10);
             const year = parseInt(obj.start_day, 10);
             const yearEnd = parseInt(obj.end_day, 10);
-            custom.push({
-              year,
-              month,
-              day,
-              className: 'purpleDay',
-            });
-            custom.push({
-              year: yearEnd,
-              month: monthEnd,
-              day: dayEnd,
-              className: 'purpleDay',
-            });
+            if (day > dayEnd) {
+              const a = 30 - day;
+              console.log(a, 'sum day');
+              // eslint-disable-next-line no-plusplus
+              for (let i = day; i <= 31; i++) {
+                console.log(i, 'yy');
+                custom.push({
+                  year,
+                  month,
+                  day: i,
+                  className: 'purpleDay',
+                });
+              }
+              // eslint-disable-next-line no-plusplus
+              for (let i = 1; i <= dayEnd; i++) {
+                console.log(i, 'yy');
+                custom.push({
+                  year: yearEnd,
+                  month: monthEnd,
+                  day: i,
+                  className: 'purpleDay',
+                });
+              }
+            }
+            // eslint-disable-next-line no-plusplus
+            for (let i = day; i <= dayEnd; i++) {
+              console.log(i, 'yy');
+              custom.push({
+                year,
+                month: monthEnd,
+                day: i,
+                className: 'purpleDay',
+              });
+            }
             return obj;
           }
           return obj;
