@@ -31,8 +31,8 @@ const dayOffData = [
   },
   {
     id: 3,
-    start_day: '2021-12-25T19:00:00.000Z',
-    end_day: '2021-12-26T19:00:00.000Z',
+    start_day: '2022-06-05T19:00:00.000Z',
+    end_day: '2022-06-09T19:00:00.000Z',
     type: 'vacation',
     status: 'pending',
     userId: 1,
@@ -54,11 +54,11 @@ const dayOffData = [
     userId: 1,
   },
 ];
-const disabledDays = [{
-  year: 2000,
-  month: 0,
-  day: 0,
-}];
+// const disabledDays = [{
+//   year: 2000,
+//   month: 0,
+//   day: 0,
+// }];
 export interface IBookDay {
   id: number;
   start_day: string;
@@ -133,8 +133,15 @@ const CalendarSelect: FC<P> = ({
   const [dayOff, setDayOff] = useState<any[]>([]);
   const [currentType, setCurrentType] = useState<any>([]);
   const [customDays, setCustomDays] = useState<any>([]);
+  const [disabledDays, setDisabledDays] = useState<any>([]);
 
   const custom = [{
+    year: 0,
+    month: 0,
+    day: 0,
+    className: 'purpleDay',
+  }];
+  const customBlock = [{
     year: 0,
     month: 0,
     day: 0,
@@ -198,6 +205,70 @@ const CalendarSelect: FC<P> = ({
                 className: 'purpleDay',
               });
             }
+            console.log(obj.type, 'type');
+            if (obj.type === 'vacation') {
+              // eslint-disable-next-line no-plusplus
+              for (let i = day; i <= 31; i++) {
+                console.log(i, 'yy');
+                customBlock.push({
+                  year,
+                  month: month - 2,
+                  day: i,
+                  className: 'purpleDay',
+                });
+              }
+              // eslint-disable-next-line no-plusplus
+              for (let i = 1; i <= 31; i++) {
+                console.log(i, 'yy');
+                customBlock.push({
+                  year,
+                  month: month - 1,
+                  day: i,
+                  className: 'purpleDay',
+                });
+              }
+              // eslint-disable-next-line no-plusplus
+              for (let i = 1; i <= day; i++) {
+                console.log(i, 'yy');
+                customBlock.push({
+                  year,
+                  month,
+                  day: i,
+                  className: 'purpleDay',
+                });
+              }
+              // eslint-disable-next-line no-plusplus
+              for (let i = dayEnd; i <= 31; i++) {
+                console.log(monthEnd, 'month');
+                customBlock.push({
+                  year: yearEnd,
+                  month: monthEnd,
+                  day: i,
+                  className: 'purpleDay',
+                });
+              }
+              // eslint-disable-next-line no-plusplus
+              for (let i = 1; i <= 31; i++) {
+                console.log(i, 'yy');
+                customBlock.push({
+                  year: yearEnd,
+                  month: monthEnd + 1,
+                  day: i,
+                  className: 'purpleDay',
+                });
+              }
+              // eslint-disable-next-line no-plusplus
+              for (let i = 1; i <= dayEnd; i++) {
+                console.log(i, 'yy');
+                customBlock.push({
+                  year: yearEnd,
+                  month: monthEnd + 2,
+                  day: i,
+                  className: 'purpleDay',
+                });
+              }
+              console.log(customBlock, '2 month');
+            }
             return obj;
           }
           return obj;
@@ -205,11 +276,16 @@ const CalendarSelect: FC<P> = ({
         console.log(filt, 'map');
       }
       setCustomDays(custom);
-      console.log(customDays, 'array');
+      if (type === 'vacation') {
+        setDisabledDays([...custom, ...customBlock]);
+        console.log(disabledDays, 'array');
+        return;
+      }
+      setDisabledDays(custom);
+      console.log(disabledDays, 'array');
     }
   }, [type, dayOff]);
   const onChange = (value:SelectedDays) => {
-    console.log(type);
     setSelectedDay(value);
     const start = `${value.from.year}-${value.from.month}-${value.from.day}`;
     if (value.to) {
@@ -235,17 +311,23 @@ const CalendarSelect: FC<P> = ({
         return a;
       }
       if (currentType.length > 0) {
-        const lastDayOff = currentType[currentType.length - 1];
+        // const lastDayOff = currentType[currentType.length - 1];
 
-        const newYear = parseInt(lastDayOff.end_day, 10);
-        const newMounth = parseInt(lastDayOff.end_day.replace(/[^a-zа-яё0-9\s]/gi, ' ').slice(5), 10);
-        const newDay = parseInt(lastDayOff.end_day.replace(/[^a-zа-яё0-9\s]/gi, ' ').slice(8), 10);
-
+        // const newYear = parseInt(lastDayOff.end_day, 10);
+        // const newMounth = parseInt(lastDayOff.end_day.
+        // replace(/[^a-zа-яё0-9\s]/gi, ' ').slice(5), 10);
+        // const newDay = parseInt(lastDayOff.end_day.
+        // replace(/[^a-zа-яё0-9\s]/gi, ' ').slice(8), 10);
         const a = {
-          year: newYear,
-          month: 2 + newMounth,
-          day: newDay,
+          year: moment().year(),
+          month: 1 + moment().month(),
+          day: moment().date(),
         };
+        // const a = {
+        //   year: newYear,
+        //   month: 2 + newMounth,
+        //   day: newDay,
+        // };
         return a;
       }
     }

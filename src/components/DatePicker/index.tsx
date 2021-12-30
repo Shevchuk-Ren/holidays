@@ -12,7 +12,10 @@ const DataBooking: FC = () => {
   const [type, setType] = useState<string>('vacation');
   const [date, setDate] = useState<[ string, string ]>(['', '']);
 
-  const onChangeRestType = (value: any) => setType(value);
+  const onChangeRestType = (value: any) => {
+    console.log('Here', value);
+    setType(value);
+  };
   const handlerChange = (data:[ string, string ]):void => {
     setDate(data);
   };
